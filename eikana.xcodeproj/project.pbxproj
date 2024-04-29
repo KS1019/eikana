@@ -10,6 +10,7 @@
 		7C699AEE2BCDD319005D3E6E /* eikanaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C699AED2BCDD319005D3E6E /* eikanaApp.swift */; };
 		7C699AF42BCDD31D005D3E6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C699AF32BCDD31D005D3E6E /* Assets.xcassets */; };
 		7C699B022BCDD31E005D3E6E /* eikanaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C699B012BCDD31E005D3E6E /* eikanaTests.swift */; };
+		7CE703AF2BDB2FAD000A2054 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE703AE2BDB2FAD000A2054 /* LaunchAtLogin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CE703AF2BDB2FAD000A2054 /* LaunchAtLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +104,7 @@
 			);
 			name = eikana;
 			packageProductDependencies = (
+				7CE703AE2BDB2FAD000A2054 /* LaunchAtLogin */,
 			);
 			productName = eikana;
 			productReference = 7C699AEA2BCDD319005D3E6E /* eikana.app */;
@@ -154,6 +157,7 @@
 			);
 			mainGroup = 7C699AE12BCDD318005D3E6E;
 			packageReferences = (
+				7CE703AD2BDB2FAC000A2054 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 			);
 			productRefGroup = 7C699AEB2BCDD319005D3E6E /* Products */;
 			projectDirPath = "";
@@ -456,6 +460,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7CE703AD2BDB2FAC000A2054 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7CE703AE2BDB2FAD000A2054 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7CE703AD2BDB2FAC000A2054 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
+			productName = LaunchAtLogin;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7C699AE22BCDD318005D3E6E /* Project object */;
 }
