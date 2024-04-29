@@ -1,4 +1,5 @@
 import SwiftUI
+import LaunchAtLogin
 
 @main
 struct eikanaApp: App {
@@ -6,62 +7,64 @@ struct eikanaApp: App {
 
     @State var currentNumber: String = "1"
 
+    @Environment(\.openWindow) var openWindow
+
     var body: some Scene {
         MenuBarExtra(currentNumber, systemImage: "\(currentNumber).circle") {
-            Button("One") {
-                currentNumber = "1"
-            }
-            Button("Two") {
-                currentNumber = "2"
-            }
-            Button("Three") {
-                currentNumber = "3"
+            Button("Open") {
+                openWindow(id: "launch-at-login")
             }
             Divider()
             Button("Quit") {
                 NSApplication.shared.terminate(nil)
             }
         }
+
+        Window("Launch At Login", id: "launch-at-login") {
+            Form {
+                LaunchAtLogin.Toggle()
+                    .toggleStyle(.switch)
+            }
+            .padding()
+        }
     }
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
+class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDelegate {
     let eisu: UInt16 = 102
     let kana: UInt16 = 104
     let rightCommandKey: UInt16 = 54
     let leftCommandKey: UInt16 = 55
     var flagsChangeMonitor: Any?
-    var keyDownMonitor: Any?
     var lastKeycode: UInt16 = 0
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged, handler: flagsChanged(evt:))
-        keyDownMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown, handler: keyDown(evt:))
+        flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         NSEvent.removeMonitor(flagsChangeMonitor!)
     }
 
-    private func flagsChanged(evt: NSEvent) -> Void {
-        if !evt.modifierFlags.contains(.command) && lastKeycode == evt.keyCode {
-            switch evt.keyCode {
-                case leftCommandKey:
-                    down(eisu)
-                    up(eisu)
-                case rightCommandKey:
-                    down(kana)
-                    up(kana)
-                default:
-                    break
+    private func handle(event: NSEvent) -> Void {
+        precondition([.flagsChanged, .keyDown].contains(event.type))
+
+        if event.type == .flagsChanged {
+            if !event.modifierFlags.contains(.command) && lastKeycode == event.keyCode {
+                switch event.keyCode {
+                    case leftCommandKey:
+                        down(eisu)
+                        up(eisu)
+                    case rightCommandKey:
+                        down(kana)
+                        up(kana)
+                    default:
+                        break
+                }
             }
+        } else {
+            lastKeycode = event.keyCode
         }
-
-        lastKeycode = evt.keyCode
-    }
-
-    private func keyDown(evt: NSEvent) -> Void {
-        lastKeycode = evt.keyCode
     }
 
     func down(_ key: UInt16) {
