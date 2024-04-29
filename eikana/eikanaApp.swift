@@ -5,13 +5,11 @@ import LaunchAtLogin
 struct eikanaApp: App {
     @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
 
-    @State var currentNumber: String = "1"
-
     @Environment(\.openWindow) var openWindow
 
     var body: some Scene {
-        MenuBarExtra(currentNumber, systemImage: "\(currentNumber).circle") {
-            Button("Open") {
+        MenuBarExtra("", systemImage: "command") {
+            Button("Settings") {
                 openWindow(id: "launch-at-login")
             }
             Divider()
