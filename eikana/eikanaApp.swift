@@ -9,22 +9,34 @@ struct eikanaApp: App {
 
     var body: some Scene {
         MenuBarExtra("", systemImage: "command") {
-            Button("Settings") {
-                openWindow(id: "launch-at-login")
+            Button("設定") {
+                openWindow(id: "settings")
             }
             Divider()
-            Button("Quit") {
+            Button("終了") {
                 NSApplication.shared.terminate(nil)
             }
         }
 
-        Window("Launch At Login", id: "launch-at-login") {
+        Window("設定", id: "settings") {
             Form {
-                LaunchAtLogin.Toggle()
-                    .toggleStyle(.switch)
+                Section("設定") { 
+                    HStack {
+                        LaunchAtLogin.Toggle()
+                            .toggleStyle(.switch)
+                    }
+
+                    HStack {
+                        Text("Ver 0.0.1")
+                    }
+                }
             }
+            .formStyle(.grouped)
             .padding()
+            .toolbarBackground(Color.clear)
+            .frame(width: 280, height: 200, alignment: .center)
         }
+        .windowResizability(.contentSize)
     }
 }
 
