@@ -50,12 +50,12 @@ struct eikanaApp: App {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDelegate {
-    let eisu: UInt16 = 102
-    let kana: UInt16 = 104
-    let rightCommandKey: UInt16 = 54
-    let leftCommandKey: UInt16 = 55
-    var flagsChangeMonitor: Any?
-    var lastKeycode: UInt16 = 0
+    private let eisu: UInt16 = 102
+    private let kana: UInt16 = 104
+    private let rightCommandKey: UInt16 = 54
+    private let leftCommandKey: UInt16 = 55
+    private var flagsChangeMonitor: Any?
+    private var lastKeycode: UInt16 = 0
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
@@ -86,15 +86,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
         }
     }
 
-    func down(_ key: UInt16) {
+    private func down(_ key: UInt16) {
         post(key: key, keyDown: true)
     }
 
-    func up(_ key: UInt16) {
+    private func up(_ key: UInt16) {
         post(key: key, keyDown: false)
     }
 
-    func post(key: UInt16, keyDown: Bool) {
+    private func post(key: UInt16, keyDown: Bool) {
         let keyDownEvent = CGEvent(keyboardEventSource: CGEventSource(stateID: CGEventSourceStateID.hidSystemState), virtualKey: key, keyDown: keyDown)!
         keyDownEvent.flags = CGEventFlags(rawValue: 0)
         keyDownEvent.post(tap: CGEventTapLocation.cghidEventTap)
