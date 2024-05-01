@@ -29,7 +29,7 @@ struct eikanaApp: App {
 
         Window("設定", id: "settings") {
             Form {
-                Section("設定") { 
+                Section("設定") {
                     HStack {
                         LaunchAtLogin.Toggle("ログイン時に起動")
                             .toggleStyle(.switch)
@@ -65,11 +65,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
         NSEvent.removeMonitor(flagsChangeMonitor!)
     }
 
-    private func handle(event: NSEvent) -> Void {
+    private func handle(event: NSEvent) {
         precondition([.flagsChanged, .keyDown].contains(event.type))
 
-        if event.type == .flagsChanged {
-            if !event.modifierFlags.contains(.command) && lastKeycode == event.keyCode {
+        if event.type == .flagsChanged
+            && !event.modifierFlags.contains(.command)
+            && lastKeycode == event.keyCode {
                 switch event.keyCode {
                     case leftCommandKey:
                         down(eisu)
@@ -80,7 +81,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
                     default:
                         break
                 }
-            }
         } else {
             lastKeycode = event.keyCode
         }
