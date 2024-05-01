@@ -31,7 +31,7 @@ struct eikanaApp: App {
             Form {
                 Section("設定") { 
                     HStack {
-                        LaunchAtLogin.Toggle()
+                        LaunchAtLogin.Toggle("ログイン時に起動")
                             .toggleStyle(.switch)
                     }
 
