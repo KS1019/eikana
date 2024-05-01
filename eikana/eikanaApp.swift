@@ -13,6 +13,15 @@ struct eikanaApp: App {
                 openWindow(id: "settings")
             }
             Divider()
+            Button("再起動") {
+                let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
+                let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+                let task = Process()
+                task.launchPath = "/usr/bin/open"
+                task.arguments = [path]
+                try! task.run()
+                NSApplication.shared.terminate(self)
+            }
             Button("終了") {
                 NSApplication.shared.terminate(nil)
             }
