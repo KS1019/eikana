@@ -347,8 +347,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		7CE703E72BE2B7B7000A2054 /* XCRemoteSwiftPackageReference "SwiftFormat" */ = {
