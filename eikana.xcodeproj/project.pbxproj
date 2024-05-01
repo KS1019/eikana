@@ -10,6 +10,7 @@
 		7C699AEE2BCDD319005D3E6E /* eikanaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C699AED2BCDD319005D3E6E /* eikanaApp.swift */; };
 		7C699AF42BCDD31D005D3E6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C699AF32BCDD31D005D3E6E /* Assets.xcassets */; };
 		7CE703AF2BDB2FAD000A2054 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE703AE2BDB2FAD000A2054 /* LaunchAtLogin */; };
+		7CE703E92BE2B7B7000A2054 /* swiftformat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE703E82BE2B7B7000A2054 /* swiftformat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CE703AF2BDB2FAD000A2054 /* LaunchAtLogin in Frameworks */,
+				7CE703E92BE2B7B7000A2054 /* swiftformat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +77,7 @@
 			name = eikana;
 			packageProductDependencies = (
 				7CE703AE2BDB2FAD000A2054 /* LaunchAtLogin */,
+				7CE703E82BE2B7B7000A2054 /* swiftformat */,
 			);
 			productName = eikana;
 			productReference = 7C699AEA2BCDD319005D3E6E /* eikana.app */;
@@ -106,6 +109,7 @@
 			mainGroup = 7C699AE12BCDD318005D3E6E;
 			packageReferences = (
 				7CE703AD2BDB2FAC000A2054 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
+				7CE703E72BE2B7B7000A2054 /* XCRemoteSwiftPackageReference "SwiftFormat" */,
 			);
 			productRefGroup = 7C699AEB2BCDD319005D3E6E /* Products */;
 			projectDirPath = "";
@@ -347,6 +351,14 @@
 				kind = branch;
 			};
 		};
+		7CE703E72BE2B7B7000A2054 /* XCRemoteSwiftPackageReference "SwiftFormat" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "http://github.com/nicklockwood/SwiftFormat";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.53.8;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -354,6 +366,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7CE703AD2BDB2FAC000A2054 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
 			productName = LaunchAtLogin;
+		};
+		7CE703E82BE2B7B7000A2054 /* swiftformat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7CE703E72BE2B7B7000A2054 /* XCRemoteSwiftPackageReference "SwiftFormat" */;
+			productName = swiftformat;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
