@@ -1,5 +1,5 @@
-import SwiftUI
 import LaunchAtLogin
+import SwiftUI
 
 @main
 struct eikanaApp: App {
@@ -57,11 +57,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
     private var flagsChangeMonitor: Any?
     private var lastKeycode: UInt16 = 0
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
+    func applicationDidFinishLaunching(_: Notification) {
         flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
     }
 
-    func applicationWillTerminate(_ notification: Notification) {
+    func applicationWillTerminate(_: Notification) {
         NSEvent.removeMonitor(flagsChangeMonitor!)
     }
 
@@ -70,17 +70,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 
         if event.type == .flagsChanged
             && !event.modifierFlags.contains(.command)
-            && lastKeycode == event.keyCode {
-                switch event.keyCode {
-                    case leftCommandKey:
-                        down(eisu)
-                        up(eisu)
-                    case rightCommandKey:
-                        down(kana)
-                        up(kana)
-                    default:
-                        break
-                }
+            && lastKeycode == event.keyCode
+        {
+            switch event.keyCode {
+            case leftCommandKey:
+                down(eisu)
+                up(eisu)
+            case rightCommandKey:
+                down(kana)
+                up(kana)
+            default:
+                break
+            }
         } else {
             lastKeycode = event.keyCode
         }
