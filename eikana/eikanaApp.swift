@@ -10,6 +10,7 @@ struct eikanaApp: App {
     var body: some Scene {
         MenuBarExtra("", systemImage: "command") {
             Button("設定") {
+                NSApplication.shared.activate(ignoringOtherApps: true)
                 openWindow(id: "settings")
             }
             Divider()
