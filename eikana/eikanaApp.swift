@@ -10,8 +10,13 @@ struct eikanaApp: App {
     var body: some Scene {
         MenuBarExtra("", systemImage: "command") {
             Button("設定") {
-                NSApplication.shared.activate(ignoringOtherApps: true)
                 openWindow(id: "settings")
+
+                NSApplication.shared.unhide(self)
+                if let wnd = NSApplication.shared.windows.first {
+                    wnd.makeKeyAndOrderFront(self)
+                    wnd.setIsVisible(true)
+                }
             }
             Divider()
             Button("再起動") {
