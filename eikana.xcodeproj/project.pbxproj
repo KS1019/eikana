@@ -38,10 +38,10 @@
 		7C699AE12BCDD318005D3E6E = {
 			isa = PBXGroup;
 			children = (
-				7C129EBD2BEDC454007E342D /* Scripts */,
-				7C129EBC2BEDC43F007E342D /* README.md */,
 				7C699AEC2BCDD319005D3E6E /* eikana */,
 				7C699AEB2BCDD319005D3E6E /* Products */,
+				7C129EBC2BEDC43F007E342D /* README.md */,
+				7C129EBD2BEDC454007E342D /* Scripts */,
 			);
 			sourceTree = "<group>";
 		};
