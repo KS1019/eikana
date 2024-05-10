@@ -1,14 +1,14 @@
 import Foundation
 
 let configuration =
-switch (CommandLine.arguments.first ?? "RELEASE").uppercased() {
+    switch (CommandLine.arguments.first ?? "RELEASE").uppercased() {
     case "RELEASE":
         "RELEASE"
     case "DEBUG":
         "DEBUG"
     default:
         "RELEASE"
-}
+    }
 
 func runXcrun(_ arguments: [String]) throws {
     let xcrun = Process()
