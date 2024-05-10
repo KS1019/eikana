@@ -12,17 +12,10 @@ let configuration =
 
 func runXcrun(_ arguments: [String]) throws {
     let xcrun = Process()
-    guard let url = URL(string: "/usr/bin/sh") else {
-        preconditionFailure("xcrun could not be found")
-    }
-    print("======================")
-    print("Started")
-    print("URL: \(url)")
-    xcrun.executableURL = url
-    print("ee")
+    xcrun.executableURL = URL(fileURLWithPath: "/usr/bin/xcrun")
     xcrun.arguments = arguments
-
     try xcrun.run()
+    xcrun.waitUntilExit()
 }
 
 func runXcrun(_ arguments: String) throws {
@@ -30,4 +23,4 @@ func runXcrun(_ arguments: String) throws {
     try runXcrun(arguments)
 }
 
-try runXcrun("-c xcrun xcodebuild -project ../eikana.xcodeproj -scheme eikana -configuration Release -archivePath Archive.xcarchive archive")
+try runXcrun("xcodebuild -project ../eikana.xcodeproj -scheme eikana -configuration \(configuration) -archivePath Archive.xcarchive archive")
