@@ -14,6 +14,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C129EBC2BEDC43F007E342D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		7C129EBD2BEDC454007E342D /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
 		7C699AEA2BCDD319005D3E6E /* eikana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eikana.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C699AED2BCDD319005D3E6E /* eikanaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eikanaApp.swift; sourceTree = "<group>"; };
 		7C699AF32BCDD31D005D3E6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -36,6 +38,8 @@
 		7C699AE12BCDD318005D3E6E = {
 			isa = PBXGroup;
 			children = (
+				7C129EBD2BEDC454007E342D /* Scripts */,
+				7C129EBC2BEDC43F007E342D /* README.md */,
 				7C699AEC2BCDD319005D3E6E /* eikana */,
 				7C699AEB2BCDD319005D3E6E /* Products */,
 			);
