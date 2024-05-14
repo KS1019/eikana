@@ -3,7 +3,7 @@
 <img src="https://github.com/KS1019/eikana/blob/main/eikana/Assets.xcassets/AppIcon.appiconset/icon.png?raw=true" width=300>
 </div>
 
-eikana はコマンドキーを利用して英語入力とかな入力を切り替えられるヘルパーアプリです。USキーボードでJISキーボードに近い体験を得ることできます。
+eikana はコマンドキーを利用して英語入力とかな入力を切り替えられるヘルパーアプリです。USキーボードでJISキーボードに近い体験を得ることができます。
 
 ## インストール
 
@@ -29,7 +29,7 @@ swift Install.swift
 
 - `NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler:)` という関数を呼ぶことでキーの押し込み状態を監視しています。
 
-- `CGEvent(keyboardEventSource: )` を利用してかな入力キーもしくは英数入力キーを擬似的に入力しています。
+- `CGEvent(keyboardEventSource:)` を利用してかな入力キーもしくは英数入力キーを擬似的に入力しています。
 
 ## 他のツール
 
