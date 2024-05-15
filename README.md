@@ -1,6 +1,6 @@
 # eikana
 <div align="center">
-<img src="https://github.com/KS1019/eikana/blob/main/eikana/Assets.xcassets/AppIcon.appiconset/icon@0.25.png?raw=true" width=300>
+<img src="https://raw.githubusercontent.com/KS1019/eikana/main/eikana/Assets.xcassets/AppIcon.appiconset/icon@0.5.png" width=300>
 </div>
 
 eikana はコマンドキーを利用して英語入力とかな入力を切り替えられるヘルパーアプリです。USキーボードでJISキーボードに近い体験を得ることができます。
