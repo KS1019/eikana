@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7C699AEE2BCDD319005D3E6E /* eikanaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C699AED2BCDD319005D3E6E /* eikanaApp.swift */; };
 		7C699AF42BCDD31D005D3E6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C699AF32BCDD31D005D3E6E /* Assets.xcassets */; };
+		7C717E5D2BF551B5003A01C9 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7C717E5C2BF551B5003A01C9 /* Config.xcconfig */; };
 		7CE703AF2BDB2FAD000A2054 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE703AE2BDB2FAD000A2054 /* LaunchAtLogin */; };
 		7CE703E92BE2B7B7000A2054 /* swiftformat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE703E82BE2B7B7000A2054 /* swiftformat */; };
 /* End PBXBuildFile section */
@@ -20,6 +21,7 @@
 		7C699AED2BCDD319005D3E6E /* eikanaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eikanaApp.swift; sourceTree = "<group>"; };
 		7C699AF32BCDD31D005D3E6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C699AF82BCDD31D005D3E6E /* eikana.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eikana.entitlements; sourceTree = "<group>"; };
+		7C717E5C2BF551B5003A01C9 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		7C699AEC2BCDD319005D3E6E /* eikana */ = {
 			isa = PBXGroup;
 			children = (
+				7C717E5C2BF551B5003A01C9 /* Config.xcconfig */,
 				7C699AED2BCDD319005D3E6E /* eikanaApp.swift */,
 				7C699AF32BCDD31D005D3E6E /* Assets.xcassets */,
 				7C699AF82BCDD31D005D3E6E /* eikana.entitlements */,
@@ -129,6 +132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C717E5D2BF551B5003A01C9 /* Config.xcconfig in Resources */,
 				7C699AF42BCDD31D005D3E6E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
