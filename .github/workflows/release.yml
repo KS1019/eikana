@@ -1,0 +1,9 @@
+name: Make a Release from a Tag
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
