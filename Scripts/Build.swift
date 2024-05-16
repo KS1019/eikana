@@ -23,4 +23,4 @@ func runXcrun(_ arguments: String) throws {
     try runXcrun(arguments)
 }
 
-try runXcrun("xcodebuild -project ../eikana.xcodeproj -scheme eikana -configuration \(configuration) -archivePath Archive.xcarchive archive")
+try runXcrun("xcodebuild -resolvePackageDependencies -project ../eikana.xcodeproj -scheme eikana -configuration \(configuration) -archivePath Archive.xcarchive archive")
