@@ -42,7 +42,7 @@ struct eikanaApp: App {
                     }
 
                     HStack {
-                        Text("Ver 0.0.1")
+                        Text("Ver ") + Text((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?.?.?")
                     }
                 }
             }
