@@ -7,3 +7,50 @@ on:
 
 jobs:
   build:
+      runs-on: macos-13
+      timeout-minutes: 10
+      steps:
+      - name: Set Environment
+        run: sudo xcrun xcode-select -s /Applications/Xcode_15.2.app
+      - name: Update Build Number
+        env:
+          TAG_NAME: ${{ github.ref }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+            export CLEAN_TAG=$(echo $TAG_NAME | sed -e 's/refs\/tags\/v//')
+            sed -i '' -e "s/CI_MARKETING_VERSION/$CLEAN_TAG/g" Configs/Release.xcconfig
+            sed -i '' -e "s/CI_CURRENT_PROJECT_VERSION/1.$RUN_ID/g" Configs/Release.xcconfig
+      - name: Build
+        run: cd Scripts && swift Build.swift
+      - name: Create ZIPs
+        run: |
+            ditto -c -k --sequesterRsrc --keepParent Scripts/Archive.xcarchive/Products/Applications/eikana.app ./eikana.zip
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body: |
+            Update description
+            
+            ## Features
+            
+            ## Fixes
+            
+            ## Minimum macOS Version
+            
+          draft: true
+          prerelease: false
+      - name: Upload App to Release
+        id: upload-release-asset-app
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./eikana.zip
+          asset_name: eikana.zip
+          asset_content_type: application/zip
