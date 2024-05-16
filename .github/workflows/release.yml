@@ -18,8 +18,7 @@ jobs:
           RUN_ID: ${{ github.run_id }}
         run: |
             export CLEAN_TAG=$(echo $TAG_NAME | sed -e 's/refs\/tags\/v//')
-            sed -i '' -e "s/CI_MARKETING_VERSION/$CLEAN_TAG/g" Configs/Release.xcconfig
-            sed -i '' -e "s/CI_CURRENT_PROJECT_VERSION/1.$RUN_ID/g" Configs/Release.xcconfig
+            cd Scripts && swift Bump.swift $CLEAN_TAG 1.$RUN_ID
       - name: Build
         run: cd Scripts && swift Build.swift
       - name: Create ZIPs
