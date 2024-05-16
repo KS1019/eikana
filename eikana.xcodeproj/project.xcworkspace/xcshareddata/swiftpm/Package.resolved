@@ -1,4 +1,5 @@
 {
+  "originHash" : "e97130af1dc149cc1a999a279a2b532887163f9a12661499e481934ebba0b834",
   "pins" : [
     {
       "identity" : "launchatlogin-modern",
@@ -14,10 +15,10 @@
       "kind" : "remoteSourceControl",
       "location" : "http://github.com/nicklockwood/SwiftFormat",
       "state" : {
-        "revision" : "ab238886b8b50f8b678b251f3c28c0c887305407",
-        "version" : "0.53.8"
+        "revision" : "05cb325003a673b3d177c711b3bc909cfee07622",
+        "version" : "0.53.9"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
