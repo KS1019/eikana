@@ -7,6 +7,17 @@ eikana はコマンドキーを利用して英語入力とかな入力を切り�
 
 ## インストール
 
+### Homebrew Cask 経由
+
+```sh
+brew install KS1019/formulae/eikana
+```
+
+[Casks/eikana.rb](https://github.com/KS1019/homebrew-formulae/blob/main/Casks/eikana.rb)
+
+----
+### 自分でビルド
+
 1. Gitでクローン
 
 ```sh
