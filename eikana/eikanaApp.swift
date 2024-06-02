@@ -44,6 +44,9 @@ struct eikanaApp: App {
                     HStack {
                         Text("Ver ") + Text((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?.?.?")
                     }
+                    HStack {
+                        Link("Webサイト", destination: URL(string: "https://github.com/KS1019/eikana")!)
+                    }
                 }
             }
             .formStyle(.grouped)
