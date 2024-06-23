@@ -13,7 +13,7 @@ jobs:
       steps:
       - uses: actions/checkout@v4
       - name: Set Environment
-        run: sudo xcrun xcode-select -s /Applications/Xcode_15.4444.app
+        run: sudo xcrun xcode-select -s /Applications/Xcode_15.4.app
       - name: Update Build Number
         env:
           TAG_NAME: ${{ github.ref }}
