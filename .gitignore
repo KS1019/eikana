@@ -5,3 +5,5 @@ xcuserdata/
 *.dSYM
 .build/
 *.xcarchive
+eikana.app
+eikana.zip
