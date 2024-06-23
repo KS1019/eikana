@@ -57,7 +57,7 @@ struct eikanaApp: App {
             .formStyle(.grouped)
             .padding()
             .toolbarBackground(Color.clear)
-            .frame(width: 280, height: 200, alignment: .center)
+            .frame(width: 280, height: 280, alignment: .center)
         }
         .windowResizability(.contentSize)
 
