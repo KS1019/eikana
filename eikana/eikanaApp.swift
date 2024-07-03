@@ -9,27 +9,32 @@ struct eikanaApp: App {
 
     var body: some Scene {
         MenuBarExtra("", systemImage: "command") {
-            Button("設定") {
-                openWindow(id: "settings")
-
-                NSApplication.shared.unhide(self)
-                if let wnd = NSApplication.shared.windows.first {
-                    wnd.makeKeyAndOrderFront(self)
-                    wnd.setIsVisible(true)
+            if AXIsProcessTrusted() {
+                Button("設定") {
+                    openWindow(id: "settings")
+                    NSApplication.shared.unhide(self)
+                    if let wnd = NSApplication.shared.windows.first {
+                        wnd.makeKeyAndOrderFront(self)
+                        wnd.setIsVisible(true)
+                    }
                 }
-            }
-            Divider()
-            Button("再起動") {
-                let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
-                let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
-                let task = Process()
-                task.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-                task.arguments = [path]
-                try! task.run()
-                NSApplication.shared.terminate(self)
-            }
-            Button("終了") {
-                NSApplication.shared.terminate(nil)
+                Divider()
+                Button("再起動") {
+                    let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
+                    let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+                    let task = Process()
+                    task.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+                    task.arguments = [path]
+                    try! task.run()
+                    NSApplication.shared.terminate(self)
+                }
+                Button("終了") {
+                    NSApplication.shared.terminate(nil)
+                }
+            } else {
+                Button("アクセサシビリティを許可する") {
+                    let _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
+                }
             }
         }
 
@@ -120,6 +125,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 
     func applicationDidFinishLaunching(_: Notification) {
         flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
+        let _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
     }
 
     func applicationWillTerminate(_: Notification) {
