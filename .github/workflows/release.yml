@@ -26,6 +26,9 @@ jobs:
       - name: Create ZIPs
         run: |
             ditto -c -k --sequesterRsrc --keepParent Scripts/Archive.xcarchive/Products/Applications/eikana.app ./eikana.zip
+      - name: Get the file hash sha256 of the ZIP
+        run: |
+            shasum -a 256 eikana.zip
       - name: Create a new Release and Upload App
         uses: softprops/action-gh-release@v2
         with:
