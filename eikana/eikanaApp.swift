@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 
     func applicationDidFinishLaunching(_: Notification) {
         flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
-        let _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
+        _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
     }
 
     func applicationWillTerminate(_: Notification) {
@@ -36,8 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 
         if event.type == .flagsChanged
             && !event.modifierFlags.contains(.command)
-            && lastKeycode == event.keyCode
-        {
+            && lastKeycode == event.keyCode {
             switch event.keyCode {
             case leftCommandKey:
                 down(eisu)
@@ -95,7 +94,7 @@ extension eikanaApp {
                 }
             } else {
                 Button("アクセサシビリティを許可する") {
-                    let _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
+                    _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
                 }
             }
         }
@@ -109,7 +108,6 @@ extension eikanaApp {
                         LaunchAtLogin.Toggle("ログイン時に起動")
                             .toggleStyle(.switch)
                     }
-
                     HStack {
                         Text("Ver ") + Text((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?.?.?")
                     }
