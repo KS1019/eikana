@@ -126,9 +126,7 @@ extension eikanaApp {
             .formStyle(.grouped)
             .padding()
             .toolbarBackground(Color.clear)
-            .frame(width: 280, height: 280, alignment: .center)
         }
-        .windowResizability(.contentSize)
     }
 
     var licensesWindow: some Scene {
@@ -176,7 +174,6 @@ extension eikanaApp {
             .formStyle(.grouped)
             .padding()
             .toolbarBackground(Color.clear)
-            .frame(width: 400, height: 600, alignment: .center)
         }
     }
 }
