@@ -126,6 +126,7 @@ extension eikanaApp {
             .formStyle(.grouped)
             .padding()
             .toolbarBackground(Color.clear)
+            .scrollDisabled(true)
         }
     }
 
