@@ -7,3 +7,4 @@ xcuserdata/
 *.xcarchive
 eikana.app
 eikana.zip
+.swiftpm
