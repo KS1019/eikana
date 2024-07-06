@@ -113,7 +113,7 @@ extension eikanaApp {
                         }
                     }
                 }
-                Section("アクセサシビリティ") {
+                Section("アクセシビリティ") {
                     HStack {
                         Button("許可する") {
                             _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
