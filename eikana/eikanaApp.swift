@@ -24,7 +24,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 
     func applicationDidFinishLaunching(_: Notification) {
         flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
-        _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
     }
 
     func applicationWillTerminate(_: Notification) {
@@ -70,7 +69,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 extension eikanaApp {
     var menuBarItem: some Scene {
         MenuBarExtra("", systemImage: "command") {
-            if AXIsProcessTrusted() {
                 Button("設定") {
                     openWindow(id: "settings")
                     NSApplication.shared.unhide(self)
@@ -92,11 +90,6 @@ extension eikanaApp {
                 Button("終了") {
                     NSApplication.shared.terminate(nil)
                 }
-            } else {
-                Button("アクセサシビリティを許可する") {
-                    _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
-                }
-            }
         }
     }
 
@@ -120,12 +113,24 @@ extension eikanaApp {
                         }
                     }
                 }
+                Section("アクセサシビリティ") {
+                    HStack {
+                        Button("許可する") {
+                            _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
+                        }
+                        .disabled(AXIsProcessTrusted())
+                        Spacer()
+                        Circle().fill(AXIsProcessTrusted() ? .green : .red).frame(width: 10, height: 10)
+                    }
+                }
             }
+            .frame(height: 300)
             .formStyle(.grouped)
             .padding()
             .toolbarBackground(Color.clear)
             .scrollDisabled(true)
         }
+        .windowResizability(.contentSize)
     }
 
     var licensesWindow: some Scene {
