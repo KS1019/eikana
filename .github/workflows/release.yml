@@ -8,12 +8,12 @@ on:
 
 jobs:
   build:
-      runs-on: macos-13
+      runs-on: macos-14
       timeout-minutes: 10
       steps:
       - uses: actions/checkout@v4
       - name: Set Environment
-        run: sudo xcrun xcode-select -s /Applications/Xcode_15.2.app
+        run: sudo xcrun xcode-select -s /Applications/Xcode_15.4.app
       - name: Update Build Number
         env:
           TAG_NAME: ${{ github.ref }}
