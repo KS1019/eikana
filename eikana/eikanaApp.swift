@@ -22,8 +22,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
     private var flagsChangeMonitor: Any?
     private var lastKeycode: UInt16 = 0
 
+    @Published public var isProcessTrusted: Bool = false
+
     func applicationDidFinishLaunching(_: Notification) {
         flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
+        updateAXTrustedStatus()
     }
 
     func applicationWillTerminate(_: Notification) {
@@ -35,7 +38,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 
         if event.type == .flagsChanged
             && !event.modifierFlags.contains(.command)
-            && lastKeycode == event.keyCode {
+            && lastKeycode == event.keyCode
+        {
             switch event.keyCode {
             case leftCommandKey:
                 down(eisu)
@@ -64,32 +68,39 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
         keyDownEvent.flags = CGEventFlags(rawValue: 0)
         keyDownEvent.post(tap: CGEventTapLocation.cghidEventTap)
     }
+
+    private func updateAXTrustedStatus() {
+        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 1) {
+            self.isProcessTrusted = AXIsProcessTrusted()
+            self.updateAXTrustedStatus()
+        }
+    }
 }
 
 extension eikanaApp {
     var menuBarItem: some Scene {
         MenuBarExtra("", systemImage: "command") {
-                Button("設定") {
-                    openWindow(id: "settings")
-                    NSApplication.shared.unhide(self)
-                    if let wnd = NSApplication.shared.windows.first {
-                        wnd.makeKeyAndOrderFront(self)
-                        wnd.setIsVisible(true)
-                    }
+            Button("設定") {
+                openWindow(id: "settings")
+                NSApplication.shared.unhide(self)
+                if let wnd = NSApplication.shared.windows.first {
+                    wnd.makeKeyAndOrderFront(self)
+                    wnd.setIsVisible(true)
                 }
-                Divider()
-                Button("再起動") {
-                    let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
-                    let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
-                    let task = Process()
-                    task.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-                    task.arguments = [path]
-                    try! task.run()
-                    NSApplication.shared.terminate(self)
-                }
-                Button("終了") {
-                    NSApplication.shared.terminate(nil)
-                }
+            }
+            Divider()
+            Button("再起動") {
+                let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
+                let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+                let task = Process()
+                task.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+                task.arguments = [path]
+                try! task.run()
+                NSApplication.shared.terminate(self)
+            }
+            Button("終了") {
+                NSApplication.shared.terminate(nil)
+            }
         }
     }
 
@@ -116,11 +127,11 @@ extension eikanaApp {
                 Section("アクセシビリティ") {
                     HStack {
                         Button("許可する") {
-                            _ = AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
+                            AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
                         }
-                        .disabled(AXIsProcessTrusted())
+                        .disabled(appDelegate.isProcessTrusted)
                         Spacer()
-                        Circle().fill(AXIsProcessTrusted() ? .green : .red).frame(width: 10, height: 10)
+                        Circle().fill(appDelegate.isProcessTrusted ? .green : .red).frame(width: 10, height: 10)
                     }
                 }
             }
