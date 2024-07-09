@@ -16,7 +16,7 @@
 /* Begin PBXFileReference section */
 		7C129EBC2BEDC43F007E342D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7C129EBD2BEDC454007E342D /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
-		7C699AEA2BCDD319005D3E6E /* eikana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eikana.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C699AEA2BCDD319005D3E6E /* eikana-DEBUG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eikana-DEBUG.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C699AED2BCDD319005D3E6E /* eikanaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eikanaApp.swift; sourceTree = "<group>"; };
 		7C699AF32BCDD31D005D3E6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C699AF82BCDD31D005D3E6E /* eikana.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eikana.entitlements; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		7C699AEB2BCDD319005D3E6E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7C699AEA2BCDD319005D3E6E /* eikana.app */,
+				7C699AEA2BCDD319005D3E6E /* eikana-DEBUG.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -96,7 +96,7 @@
 				7CE703E82BE2B7B7000A2054 /* swiftformat */,
 			);
 			productName = eikana;
-			productReference = 7C699AEA2BCDD319005D3E6E /* eikana.app */;
+			productReference = 7C699AEA2BCDD319005D3E6E /* eikana-DEBUG.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -304,7 +304,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.cmd.eikana;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)-DEBUG";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
