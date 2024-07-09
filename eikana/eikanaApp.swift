@@ -80,6 +80,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 extension eikanaApp {
     var menuBarItem: some Scene {
         MenuBarExtra("", systemImage: "command") {
+            Button(action: {
+                AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
+            }, label: {
+                Text("\(Image(systemName: "circle.fill"))").foregroundStyle(appDelegate.isProcessTrusted ? .green : .red) + Text("アクセシビリティ")
+            })
+            .disabled(appDelegate.isProcessTrusted)
             Button("設定") {
                 openWindow(id: "settings")
                 NSApplication.shared.unhide(self)
@@ -88,6 +94,7 @@ extension eikanaApp {
                     wnd.setIsVisible(true)
                 }
             }
+            .disabled(!appDelegate.isProcessTrusted)
             Divider()
             Button("再起動") {
                 let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
@@ -98,50 +105,42 @@ extension eikanaApp {
                 try! task.run()
                 NSApplication.shared.terminate(self)
             }
+            .disabled(!appDelegate.isProcessTrusted)
             Button("終了") {
                 NSApplication.shared.terminate(nil)
             }
+            .disabled(!appDelegate.isProcessTrusted)
         }
     }
 
     var settingsWindow: some Scene {
         Window("設定", id: "settings") {
-            Form {
-                Section("設定") {
-                    HStack {
-                        LaunchAtLogin.Toggle("ログイン時に起動")
-                            .toggleStyle(.switch)
-                    }
-                    HStack {
-                        Text("Ver ") + Text((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?.?.?")
-                    }
-                    HStack {
-                        Link("Webサイト", destination: URL(string: "https://github.com/KS1019/eikana")!)
-                    }
-                    HStack {
-                        Button("ライセンス") {
-                            openWindow(id: "licenses")
+            ViewThatFits {
+                Form {
+                    Section("設定") {
+                        HStack {
+                            LaunchAtLogin.Toggle("ログイン時に起動")
+                                .toggleStyle(.switch)
+                        }
+                        HStack {
+                            Text("Ver ") + Text((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?.?.?")
+                        }
+                        HStack {
+                            Link("Webサイト", destination: URL(string: "https://github.com/KS1019/eikana")!)
+                        }
+                        HStack {
+                            Button("ライセンス") {
+                                openWindow(id: "licenses")
+                            }
                         }
                     }
                 }
-                Section("アクセシビリティ") {
-                    HStack {
-                        Button("許可する") {
-                            AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
-                        }
-                        .disabled(appDelegate.isProcessTrusted)
-                        Spacer()
-                        Circle().fill(appDelegate.isProcessTrusted ? .green : .red).frame(width: 10, height: 10)
-                    }
-                }
+                .formStyle(.grouped)
+                .padding()
+                .toolbarBackground(Color.clear)
+                .scrollDisabled(true)
             }
-            .frame(height: 300)
-            .formStyle(.grouped)
-            .padding()
-            .toolbarBackground(Color.clear)
-            .scrollDisabled(true)
         }
-        .windowResizability(.contentSize)
     }
 
     var licensesWindow: some Scene {
