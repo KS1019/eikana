@@ -1,5 +1,6 @@
 import LaunchAtLogin
 import SwiftUI
+@preconcurrency import ApplicationServices.HIServices.AXUIElement
 
 @main
 struct eikanaApp: App {
@@ -14,6 +15,7 @@ struct eikanaApp: App {
     }
 }
 
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDelegate {
     private let eisu: UInt16 = 102
     private let kana: UInt16 = 104
@@ -70,7 +72,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
     }
 
     private func updateAXTrustedStatus() {
-        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 1) {
+        Task(priority: .background) {
+            try await Task.sleep(for: .seconds(1))
             self.isProcessTrusted = AXIsProcessTrusted()
             self.updateAXTrustedStatus()
         }
