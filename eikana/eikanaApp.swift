@@ -26,7 +26,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
     private var flagsChangeMonitor: Any?
     private var lastKeycode: UInt16 = 0
 
+    private var pushedCommandKeys: [(String, Date)] = []
+
     @Published public var isProcessTrusted: Bool = false
+    @AppStorage("isDoubleDownEnabled") var isDoubleDownEnabled: Bool = false
 
     func applicationDidFinishLaunching(_: Notification) {
         flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
@@ -42,17 +45,47 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 
         if event.type == .flagsChanged
             && !event.modifierFlags.contains(.command)
-            && lastKeycode == event.keyCode
-        {
-            switch event.keyCode {
-            case leftCommandKey:
-                down(eisu)
-                up(eisu)
-            case rightCommandKey:
-                down(kana)
-                up(kana)
-            default:
-                break
+            && lastKeycode == event.keyCode {
+            if isDoubleDownEnabled {
+                switch event.keyCode {
+                    case leftCommandKey:
+                        pushedCommandKeys.append(("leftCommandKey", Date()))
+                    case rightCommandKey:
+                        pushedCommandKeys.append(("rightCommandKey", Date()))
+                    default:
+                        break
+                }
+
+                if pushedCommandKeys.count > 1 {
+                    let lastPushedKey = pushedCommandKeys.removeLast()
+                    let prevToLastKey = pushedCommandKeys.removeLast()
+
+                    if lastPushedKey.0 == prevToLastKey.0 &&
+                        prevToLastKey.1.is3InSecondsRange(with: lastPushedKey.1) {
+                        if lastPushedKey.0 == "leftCommandKey" {
+                            down(eisu)
+                            up(eisu)
+                        }
+
+                        if lastPushedKey.0 == "rightCommandKey" {
+                            down(kana)
+                            up(kana)
+                        }
+                    } else {
+                        pushedCommandKeys.append(lastPushedKey)
+                    }
+                }
+            } else {
+                switch event.keyCode {
+                    case leftCommandKey:
+                        down(eisu)
+                        up(eisu)
+                    case rightCommandKey:
+                        down(kana)
+                        up(kana)
+                    default:
+                        break
+                }
             }
         } else {
             lastKeycode = event.keyCode
@@ -114,7 +147,6 @@ extension eikanaApp {
             Button("終了") {
                 NSApplication.shared.terminate(nil)
             }
-            .disabled(!appDelegate.isProcessTrusted)
         }
     }
 
@@ -173,5 +205,11 @@ extension eikanaApp {
             .padding()
             .toolbarBackground(Color.clear)
         }
+    }
+}
+
+extension Date {
+    func is3InSecondsRange(with date: Date) -> Bool {
+        self.addingTimeInterval(3) >= date
     }
 }
