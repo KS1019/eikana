@@ -8,6 +8,8 @@ struct eikanaApp: App {
 
     @Environment(\.openWindow) var openWindow
 
+    @AppStorage("isDoubleDownEnabled") var isDoubleDownEnabled: Bool = false
+
     var body: some Scene {
         menuBarItem
         settingsWindow
@@ -123,6 +125,10 @@ extension eikanaApp {
                     Section("設定") {
                         HStack {
                             LaunchAtLogin.Toggle("ログイン時に起動")
+                                .toggleStyle(.switch)
+                        }
+                        HStack {
+                            Toggle("二回押しで切り替える", isOn: $isDoubleDownEnabled)
                                 .toggleStyle(.switch)
                         }
                         HStack {
