@@ -11,7 +11,7 @@ func runMv(_ src: String, _ dest: String) throws {
 func runRm(_ target: String) throws {
     let rm = Process()
     rm.executableURL = URL(fileURLWithPath: "/bin/rm")
-    rm.arguments = ["-r", target]
+    rm.arguments = ["-rf", target]
     try rm.run()
     rm.waitUntilExit()
 }

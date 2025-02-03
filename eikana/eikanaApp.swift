@@ -28,7 +28,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 
     func applicationDidFinishLaunching(_: Notification) {
         flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
-        updateAXTrustedStatus()
+        Task {
+            try await updateAXTrustedStatus()
+        }
     }
 
     func applicationWillTerminate(_: Notification) {
@@ -71,12 +73,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
         keyDownEvent.post(tap: CGEventTapLocation.cghidEventTap)
     }
 
-    private func updateAXTrustedStatus() {
-        Task(priority: .background) {
-            try await Task.sleep(for: .seconds(1))
-            self.isProcessTrusted = AXIsProcessTrusted()
-            self.updateAXTrustedStatus()
-        }
+    private func updateAXTrustedStatus() async throws {
+        try await Task.sleep(for: .seconds(1))
+        self.isProcessTrusted = AXIsProcessTrusted()
+        try await self.updateAXTrustedStatus()
     }
 }
 
