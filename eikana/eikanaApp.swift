@@ -10,6 +10,10 @@ struct eikanaApp: App {
 
     @AppStorage("isDoubleDownEnabled") var isDoubleDownEnabled: Bool = false
 
+    var isProcessTrusted: Bool {
+        AXIsProcessTrusted()
+    }
+
     var body: some Scene {
         menuBarItem
         settingsWindow
@@ -33,9 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
 
     func applicationDidFinishLaunching(_: Notification) {
         flagsChangeMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handle(event:))
-        Task {
-            try await updateAXTrustedStatus()
-        }
+        updateAXTrustedStatus()
     }
 
     func applicationWillTerminate(_: Notification) {
@@ -108,10 +110,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
         keyDownEvent.post(tap: CGEventTapLocation.cghidEventTap)
     }
 
-    private func updateAXTrustedStatus() async throws {
-        try await Task.sleep(for: .seconds(1))
-        self.isProcessTrusted = AXIsProcessTrusted()
-        try await self.updateAXTrustedStatus()
+    private func updateAXTrustedStatus() {
+        Task {
+            try await Task.sleep(for: .seconds(1))
+            self.isProcessTrusted = AXIsProcessTrusted()
+            self.updateAXTrustedStatus()
+        }
     }
 }
 
@@ -121,9 +125,9 @@ extension eikanaApp {
             Button(action: {
                 AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
             }, label: {
-                Text("\(Image(systemName: "circle.fill"))").foregroundStyle(appDelegate.isProcessTrusted ? .green : .red) + Text("アクセシビリティ")
+                Text("\(Image(systemName: "circle.fill"))").foregroundStyle(isProcessTrusted ? .green : .red) + Text("アクセシビリティ")
             })
-            .disabled(appDelegate.isProcessTrusted)
+            .disabled(isProcessTrusted)
             Button("設定") {
                 openWindow(id: "settings")
                 NSApplication.shared.unhide(self)
@@ -132,7 +136,7 @@ extension eikanaApp {
                     wnd.setIsVisible(true)
                 }
             }
-            .disabled(!appDelegate.isProcessTrusted)
+            .disabled(!isProcessTrusted)
             Divider()
             Button("再起動") {
                 let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
@@ -143,7 +147,7 @@ extension eikanaApp {
                 try! task.run()
                 NSApplication.shared.terminate(self)
             }
-            .disabled(!appDelegate.isProcessTrusted)
+            .disabled(!isProcessTrusted)
             Button("終了") {
                 NSApplication.shared.terminate(nil)
             }
