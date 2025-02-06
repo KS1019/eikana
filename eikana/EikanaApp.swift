@@ -3,16 +3,9 @@ import SwiftUI
 @preconcurrency import ApplicationServices.HIServices.AXUIElement
 
 @main
-struct eikanaApp: App {
+struct EikanaApp: App {
     @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
-
-    @Environment(\.openWindow) var openWindow
-
     @AppStorage("isDoubleDownEnabled") var isDoubleDownEnabled: Bool = false
-
-    var isProcessTrusted: Bool {
-        AXIsProcessTrusted()
-    }
 
     var body: some Scene {
         menuBarItem
@@ -119,15 +112,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
     }
 }
 
-extension eikanaApp {
-    var menuBarItem: some Scene {
-        MenuBarExtra("", systemImage: "command") {
+struct MennuButton: View {
+    @EnvironmentObject var appDelegate: AppDelegate
+    @Environment(\.openWindow) var openWindow
+
+    var body: some View {
+        Group {
             Button(action: {
                 AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary)
             }, label: {
-                Text("\(Image(systemName: "circle.fill"))").foregroundStyle(isProcessTrusted ? .green : .red) + Text("アクセシビリティ")
+                Text("\(Image(systemName: "circle.fill"))").foregroundStyle(appDelegate.isProcessTrusted ? .green : .red) + Text("アクセシビリティ")
             })
-            .disabled(isProcessTrusted)
+            .disabled(appDelegate.isProcessTrusted)
             Button("設定") {
                 openWindow(id: "settings")
                 NSApplication.shared.unhide(self)
@@ -136,7 +132,7 @@ extension eikanaApp {
                     wnd.setIsVisible(true)
                 }
             }
-            .disabled(!isProcessTrusted)
+            .disabled(!appDelegate.isProcessTrusted)
             Divider()
             Button("再起動") {
                 let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
@@ -147,15 +143,26 @@ extension eikanaApp {
                 try! task.run()
                 NSApplication.shared.terminate(self)
             }
-            .disabled(!isProcessTrusted)
+            .disabled(!appDelegate.isProcessTrusted)
             Button("終了") {
                 NSApplication.shared.terminate(nil)
             }
         }
     }
+}
+
+extension EikanaApp {
+    var menuBarItem: some Scene {
+        MenuBarExtra("", systemImage: "command") {
+            MennuButton()
+                .environmentObject(appDelegate)
+        }
+    }
 
     var settingsWindow: some Scene {
-        Window("設定", id: "settings") {
+        @Environment(\.openWindow) var openWindow
+
+        return Window("設定", id: "settings") {
             ViewThatFits {
                 Form {
                     Section("設定") {
