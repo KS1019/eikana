@@ -104,11 +104,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWindowDe
     }
 
     private func updateAXTrustedStatus() {
+#if DEBUG
+        isProcessTrusted = true
+#else
         Task {
             try await Task.sleep(for: .seconds(1))
             self.isProcessTrusted = AXIsProcessTrusted()
             self.updateAXTrustedStatus()
         }
+#endif
     }
 }
 
@@ -163,36 +167,35 @@ extension EikanaApp {
         @Environment(\.openWindow) var openWindow
 
         return Window("設定", id: "settings") {
-            ViewThatFits {
-                Form {
-                    Section("設定") {
-                        HStack {
-                            LaunchAtLogin.Toggle("ログイン時に起動")
-                                .toggleStyle(.switch)
-                        }
-                        HStack {
-                            Toggle("二回押しで切り替える", isOn: $isDoubleDownEnabled)
-                                .toggleStyle(.switch)
-                        }
-                        HStack {
-                            Text("Ver ") + Text((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?.?.?")
-                        }
-                        HStack {
-                            Link("Webサイト", destination: URL(string: "https://github.com/KS1019/eikana")!)
-                        }
-                        HStack {
-                            Button("ライセンス") {
-                                openWindow(id: "licenses")
-                            }
+            Form {
+                Section("設定") {
+                    HStack {
+                        LaunchAtLogin.Toggle("ログイン時に起動")
+                            .toggleStyle(.switch)
+                    }
+                    HStack {
+                        Toggle("二回押しで切り替える", isOn: $isDoubleDownEnabled)
+                            .toggleStyle(.switch)
+                    }
+                    HStack {
+                        Text("Ver ") + Text((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?.?.?")
+                    }
+                    HStack {
+                        Link("Webサイト", destination: URL(string: "https://github.com/KS1019/eikana")!)
+                    }
+                    HStack {
+                        Button("ライセンス") {
+                            openWindow(id: "licenses")
                         }
                     }
                 }
-                .formStyle(.grouped)
-                .padding()
-                .toolbarBackground(Color.clear)
-                .scrollDisabled(true)
             }
+            .formStyle(.grouped)
+            .frame(width: 250, height: 250, alignment: .center)
+            .toolbarBackground(Color.clear)
+            .scrollDisabled(true)
         }
+        .windowResizability(.contentSize)
     }
 
     var licensesWindow: some Scene {
