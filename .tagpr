@@ -46,3 +46,4 @@
 	vPrefix = false
 	releaseBranch = main
 	versionFile = -
+	release = false
