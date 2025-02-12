@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.0.11](https://github.com/KS1019/eikana/compare/0.0.10...0.0.11) - 2025-02-12
+- Update .tagpr by @KS1019 in https://github.com/KS1019/eikana/pull/13
+
 ## [0.0.10](https://github.com/KS1019/eikana/compare/0.0.9...0.0.10) - 2025-02-11
 - Adds `tagpr` by @KS1019 in https://github.com/KS1019/eikana/pull/10
 - Fix `.frame` by @KS1019 in https://github.com/KS1019/eikana/pull/11
