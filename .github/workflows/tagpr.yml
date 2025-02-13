@@ -12,5 +12,43 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: Songmu/tagpr@v1
+      id: tagpr
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  build:
+    needs: tagpr
+    runs-on: macos-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set Environment
+      run: sudo xcrun xcode-select -s /Applications/Xcode_15.4.app
+    - name: Update Build Number
+      if: "steps.tagpr.outputs.tag != ''"
+      env:
+        TAG_NAME: ${{ steps.tagpr.outputs.tag }}
+        RUN_ID: ${{ github.run_id }}
+        run: |
+          export CLEAN_TAG=$(echo $TAG_NAME | sed -e 's/refs\/tags\///')
+          cd Scripts && swift Bump.swift $CLEAN_TAG 1.$RUN_ID
+    - name: Build
+      run: cd Scripts && swift Build.swift
+    - name: Create ZIPs
+      run: |
+        ditto -c -k --sequesterRsrc --keepParent Scripts/Archive.xcarchive/Products/Applications/eikana.app ./eikana.zip
+    - name: Get the file hash sha256 of the ZIP
+      run: |
+        shasum -a 256 eikana.zip >> $GITHUB_STEP_SUMMARY
+    - name: Create a new Release and Upload App
+      uses: softprops/action-gh-release@v2
+      with:
+        files: eikana.zip
+        body: |
+          Update description
+          
+          ## Features
+            
+          ## Fixes
+            
+          ## Minimum macOS Version
+        draft: true
