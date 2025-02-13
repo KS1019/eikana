@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.12](https://github.com/KS1019/eikana/compare/0.0.11...0.0.12) - 2025-02-13
+- Update tagpr.yml by @KS1019 in https://github.com/KS1019/eikana/pull/15
+- Fix by @KS1019 in https://github.com/KS1019/eikana/pull/16
+
 ## [0.0.11](https://github.com/KS1019/eikana/compare/0.0.10...0.0.11) - 2025-02-12
 - Update .tagpr by @KS1019 in https://github.com/KS1019/eikana/pull/13
 
