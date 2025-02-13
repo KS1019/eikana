@@ -9,6 +9,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+    outputs:
+      tag: ${{ steps.tagpr.outputs.tag }}
     steps:
     - uses: actions/checkout@v4
     - uses: Songmu/tagpr@v1
@@ -19,14 +21,14 @@ jobs:
     needs: tagpr
     runs-on: macos-latest
     timeout-minutes: 10
-    if: needs.tagpr.steps.tagpr.outputs.tag != ''
+    if: needs.tagpr.outputs.tag != ''
     steps:
     - uses: actions/checkout@v4
     - name: Set Environment
       run: sudo xcrun xcode-select -s /Applications/Xcode_15.4.app
     - name: Update Build Number
       env:
-        TAG_NAME: ${{ steps.tagpr.outputs.tag }}
+        TAG_NAME: ${{ needs.tagpr.outputs.tag }}
         RUN_ID: ${{ github.run_id }}
       run: |
           export CLEAN_TAG=$(echo $TAG_NAME | sed -e 's/refs\/tags\///')
